@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>My WebAR Avatar</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        background-color: #000;
+        overflow: hidden;
+      }
+      model-viewer {
+        width: 100vw;
+        height: 100vh;
+      }
+      #audio-control {
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fff;
+        padding: 10px;
+        border-radius: 10px;
+        z-index: 999;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- 3D Model Viewer -->
+    <model-viewer
+      id="avatar"
+      src="avatar.glb"
+      autoplay
+      ar
+      ar-modes="webxr scene-viewer quick-look"
+      camera-controls
+      auto-rotate
+      shadow-intensity="1"
+      exposure="1"
+      alt="My Avatar in AR">
+    </model-viewer>
+
+    <!-- Audio -->
+    <audio id="audio" controls autoplay>
+      <source src="audio.wav" type="audio/wav" />
+      Your browser does not support the audio element.
+    </audio>
+
+    <script>
+      const viewer = document.getElementById("avatar");
+      const audio = document.getElementById("audio");
+
+      viewer.addEventListener("play", () => {
+        audio.play();
+      });
+    </script>
+  </body>
+</html>
