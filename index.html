@@ -5,20 +5,43 @@
   <title>WebAR Avatar</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    body { margin: 0; background: #fff; text-align: center; }
+    body { margin: 0; background: #fff; overflow: hidden; }
     model-viewer { width: 100vw; height: 100vh; }
   </style>
 </head>
 <body>
-  <model-viewer src="avatar.glb"
+
+  <!-- Model Viewer with your avatar -->
+  <model-viewer id="avatar"
+    src="avatar.glb"
     autoplay
     camera-controls
-    auto-rotate
     ar
     ar-modes="scene-viewer webxr quick-look"
     shadow-intensity="1"
-    alt="AR Avatar">
-    <audio src="audio.wav" autoplay></audio>
+    alt="My WebAR Avatar"
+    exposure="1"
+    auto-rotate>
   </model-viewer>
+
+  <!-- Audio element -->
+  <audio id="voice" src="audio.wav"></audio>
+
+  <!-- Script to sync animation and audio -->
+  <script>
+    const viewer = document.getElementById('avatar');
+    const audio = document.getElementById('voice');
+
+    // Wait for model to load
+    viewer.addEventListener('load', () => {
+      const animations = viewer.availableAnimations;
+      if (animations && animations.length > 0) {
+        viewer.animationName = animations[0]; // Play first animation
+        viewer.play();
+        audio.play(); // Start audio at the same time
+      }
+    });
+  </script>
+
 </body>
 </html>
