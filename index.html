@@ -5,19 +5,22 @@
   <title>WebAR Talking Avatar</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    body { margin: 0; background: #fff; }
-    model-viewer { width: 100vw; height: 100vh; }
+    body {
+      margin: 0;
+      background: #fff;
+    }
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+    }
   </style>
 </head>
 <body>
-
-  <model-viewer
-    id="avatar"
-    src="avatar.glb"
+  <model-viewer id="avatar" src="avatar.glb"
     camera-controls
     autoplay
+    animation-name="Animation_5"
     ar
-    animation-name="5"
     ar-modes="scene-viewer webxr quick-look"
     shadow-intensity="1"
     alt="WebAR Talking Avatar">
@@ -26,20 +29,17 @@
   <audio id="voice" src="audio.wav" autoplay></audio>
 
   <script>
-    const viewer = document.getElementById('avatar');
+    const viewer = document.querySelector('#avatar');
     const audio = document.getElementById('voice');
 
     viewer.addEventListener('load', () => {
-      const animation = viewer.model?.animations?.[5]; // lipsync animation
+      const animation = viewer.availableAnimations.find(a => a.includes('5'));
       if (animation) {
-        viewer.animationName = animation.name;
+        viewer.animationName = animation;
         viewer.play();
       }
-      audio.play(); // play synced audio
+      audio.play();
     });
-
-    viewer.autoRotate = false;
   </script>
-
 </body>
 </html>
