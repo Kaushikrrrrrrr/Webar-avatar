@@ -2,46 +2,46 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>WebAR Avatar</title>
+  <title>WebAR Talking Avatar</title>
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
   <style>
-    body { margin: 0; background: #fff; overflow: hidden; }
+    body { margin: 0; background: #fff; }
     model-viewer { width: 100vw; height: 100vh; }
   </style>
 </head>
 <body>
 
-  <!-- Model Viewer with your avatar -->
-  <model-viewer id="avatar"
+  <model-viewer
     src="avatar.glb"
-    autoplay
     camera-controls
+    autoplay
+    animation-name="5"
     ar
     ar-modes="scene-viewer webxr quick-look"
     shadow-intensity="1"
-    alt="My WebAR Avatar"
-    exposure="1"
-    auto-rotate>
+    alt="WebAR Talking Avatar">
+
+    <!-- Make sure the audio.wav exists in the same repo -->
+    <audio id="voice" src="audio.wav" autoplay></audio>
+
+    <script>
+      const viewer = document.querySelector('model-viewer');
+      const audio = document.getElementById('voice');
+
+      viewer.addEventListener('load', () => {
+        const animation = viewer.model?.animations?.[5]; // play animation #5
+        if (animation) {
+          viewer.animationName = animation.name;
+          viewer.play();
+        }
+        audio.play(); // play synced audio
+      });
+
+      // stop rotation
+      viewer.autoRotate = false;
+    </script>
+
   </model-viewer>
-
-  <!-- Audio element -->
-  <audio id="voice" src="audio.wav"></audio>
-
-  <!-- Script to sync animation and audio -->
-  <script>
-    const viewer = document.getElementById('avatar');
-    const audio = document.getElementById('voice');
-
-    // Wait for model to load
-    viewer.addEventListener('load', () => {
-      const animations = viewer.availableAnimations;
-      if (animations && animations.length > 0) {
-        viewer.animationName = animations[0]; // Play first animation
-        viewer.play();
-        audio.play(); // Start audio at the same time
-      }
-    });
-  </script>
 
 </body>
 </html>
