@@ -12,36 +12,34 @@
 <body>
 
   <model-viewer
+    id="avatar"
     src="avatar.glb"
     camera-controls
     autoplay
-    animation-name="5"
     ar
+    animation-name="5"
     ar-modes="scene-viewer webxr quick-look"
     shadow-intensity="1"
     alt="WebAR Talking Avatar">
-
-    <!-- Make sure the audio.wav exists in the same repo -->
-    <audio id="voice" src="audio.wav" autoplay></audio>
-
-    <script>
-      const viewer = document.querySelector('model-viewer');
-      const audio = document.getElementById('voice');
-
-      viewer.addEventListener('load', () => {
-        const animation = viewer.model?.animations?.[5]; // play animation #5
-        if (animation) {
-          viewer.animationName = animation.name;
-          viewer.play();
-        }
-        audio.play(); // play synced audio
-      });
-
-      // stop rotation
-      viewer.autoRotate = false;
-    </script>
-
   </model-viewer>
+
+  <audio id="voice" src="audio.wav" autoplay></audio>
+
+  <script>
+    const viewer = document.getElementById('avatar');
+    const audio = document.getElementById('voice');
+
+    viewer.addEventListener('load', () => {
+      const animation = viewer.model?.animations?.[5]; // lipsync animation
+      if (animation) {
+        viewer.animationName = animation.name;
+        viewer.play();
+      }
+      audio.play(); // play synced audio
+    });
+
+    viewer.autoRotate = false;
+  </script>
 
 </body>
 </html>
